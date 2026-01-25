@@ -1,6 +1,7 @@
 import musicPlayerLogo from "../assets/logo.svg";
 import googleLogo from "../assets/googleLogo.svg";
 import { useTheme, useThemeUpdate } from "../context/ThemeProvider";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const darkTheme = useTheme();
@@ -84,11 +85,13 @@ const Login = () => {
           {/* Footer */}
           <p className="mt-6 text-sm text-neutral-400">
             Don’t have an account?{" "}
-            <span
-              className={`${darkTheme ? "text-[#FFED00]" : "text-[#ffbb00]"} hover:text-[#16FF00] cursor-pointer transition`}
-            >
-              Sign Up
-            </span>
+            <Link to={"/register"}>
+              <span
+                className={`${darkTheme ? "text-[#FFED00]" : "text-[#ffbb00]"} hover:text-[#16FF00] cursor-pointer transition`}
+              >
+                Sign Up
+              </span>
+            </Link>
           </p>
         </div>
       </div>

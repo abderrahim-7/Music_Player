@@ -19,7 +19,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Music Player",
+  title: "Sound Waves",
   description: "Your music player application",
 };
 

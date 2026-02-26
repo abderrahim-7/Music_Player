@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, CSSProperties } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import { useTheme, useThemeUpdate } from "@/context/ThemeProvider";
 import Genre from "@/components/Genre";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import Link from "next/dist/client/link";
+import { useRouter } from "next/navigation";
 
 interface GenreItem {
   label: string;
@@ -14,8 +14,6 @@ interface GenreItem {
 type Direction = "forward" | "backward";
 type PageIndex = 0 | 1 | 2;
 type FormErrors = Partial<Record<PageIndex, string | null>>;
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 const Infos: React.FC = () => {
   const Genres: GenreItem[] = [
@@ -47,8 +45,6 @@ const Infos: React.FC = () => {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // ─── Validators ─────────────────────────────────────────────────────────────
-
   const validateUsername = (): string | null => {
     const trimmed = username.trim();
     if (!trimmed) return "Username is required.";
@@ -79,7 +75,7 @@ const Infos: React.FC = () => {
     return null;
   };
 
-  // ─── Navigation ─────────────────────────────────────────────────────────────
+  const router = useRouter();
 
   const navigate = (targetPage: number): void => {
     if (animating) return;
@@ -88,7 +84,13 @@ const Infos: React.FC = () => {
       let error: string | null = null;
       if (currentPage === 0) error = validateUsername();
       if (currentPage === 1) error = validateBirthDate();
-      if (currentPage === 2) error = validateGenres();
+      if (currentPage === 2) {
+        error = validateGenres();
+        if (!error && selected.length >= 2) {
+          router.replace("/");
+          return;
+        }
+      }
 
       if (error) {
         setErrors((prev) => ({ ...prev, [currentPage]: error }));
@@ -114,8 +116,8 @@ const Infos: React.FC = () => {
     transform: visible
       ? "translateX(0)"
       : direction === "forward"
-        ? "translateX(40px)"
-        : "translateX(-40px)",
+        ? "translateX(-40px)"
+        : "translateX(40px)",
   };
 
   // ─── Render ──────────────────────────────────────────────────────────────────
@@ -332,11 +334,18 @@ const Infos: React.FC = () => {
             </div>
 
             <button
-              onClick={() => navigate(3)}
+              onClick={() => {
+                if (selected.length >= 2) {
+                  router.replace("/");
+                } else {
+                  navigate(3);
+                }
+              }}
               className="absolute font-[Outfit] right-5 bottom-5 px-10 py-2 rounded-full bg-[#16FF00] text-black text-lg shadow-lg hover:shadow-xl transition-shadow font-medium"
             >
               Next
             </button>
+
             <button
               onClick={() => navigate(1)}
               className="absolute font-[Outfit] left-5 bottom-5 px-10 py-2 rounded-full bg-[#16FF00] text-black text-lg shadow-lg hover:shadow-xl transition-shadow font-medium"

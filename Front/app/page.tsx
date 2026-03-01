@@ -1,7 +1,9 @@
 "use client";
 
+import Player from "@/components/Player";
+
 const MainPage = () => {
-  return <div>MainPage</div>;
+  return <Player />;
 };
 
 export default MainPage;

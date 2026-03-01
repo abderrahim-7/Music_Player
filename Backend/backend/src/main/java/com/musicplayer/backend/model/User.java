@@ -1,5 +1,7 @@
 package com.musicplayer.backend.model;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,5 +29,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private Date birthDate;
 
 }
